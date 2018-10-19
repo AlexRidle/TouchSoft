@@ -29,9 +29,7 @@ public class Rover {
 
     private void launchRover() {
         while (currentLocation != endLocation) move();
-        System.out.println("Input: " + endLocation);
-        System.out.println("Answer: " + instruction.length());
-        System.out.println("Optimal instruction is: " + instruction + ". \nRover's path: " + path);
+        System.out.println(String.format("Input: %s \nAnswer: %s\nOptimal instruction is: %s\nRover's path: %s", endLocation, instruction.length(), instruction, path));
     }
 
     private void numberOfMoves() {
@@ -80,6 +78,10 @@ public class Rover {
 
     private void rotateOrResetSpeed() {
         if (currentLocation < endLocation && velocity > 0) {
+            rotate();
+            rotate();
+            addToPath();
+        } else if (currentLocation > endLocation && velocity < 0) {
             rotate();
             rotate();
             addToPath();
