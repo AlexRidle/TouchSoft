@@ -29,7 +29,7 @@ public class Rover {
 
     private void launchRover() {
         while (currentLocation != endLocation) move();
-        System.out.println(String.format("Input: %s \nAnswer: %s\nOptimal instruction is: %s\nRover's path: %s", endLocation, instruction.length(), instruction, path));
+        showOutput();
     }
 
     private void numberOfMoves() {
@@ -102,5 +102,9 @@ public class Rover {
 
     private void addToPath() {
         path += "->" + currentLocation;
+    }
+
+    private void showOutput(){
+        System.out.println(String.format("Input: %s \nAnswer: %s\nOptimal instruction is: %s\nRover's path: %s", endLocation, instruction.length(), instruction, path));
     }
 }
