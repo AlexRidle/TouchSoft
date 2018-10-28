@@ -9,14 +9,14 @@ public class Rover {
     public String instruction = "";
     public String path = "0";
 
-    Rover(int endLocation){
+    Rover(int endLocation) {
         this.endLocation = endLocation;
     }
 
     public void setupRover(int type) {
-        if(type>0){
+        if (type > 0) {
             this.type = 1;
-        }else{
+        } else {
             this.type = 0;
         }
         launchRover();
@@ -100,7 +100,7 @@ public class Rover {
     }
 
     private int getSteps() {
-        if(type>0) {
+        if (type > 0) {
             int pos = currentLocation;
             int distance = distance(pos);
             int velocity = 1;
@@ -120,7 +120,7 @@ public class Rover {
                     return 0;
                 }
             }
-        }else{
+        } else {
             return 0;
         }
     }
