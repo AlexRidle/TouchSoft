@@ -5,12 +5,24 @@ public class Rover {
     private int velocity = 1;
     private int currentLocation = 0;
     private int type;
-    public int endLocation;
-    public String instruction = "";
-    public String path = "0";
+    private int endLocation;
+    private String instruction = "";
+    private String path = "0";
 
     Rover(int endLocation) {
         this.endLocation = endLocation;
+    }
+
+    public int getInstructionLength() {
+        return instruction.length();
+    }
+
+    public String getInstruction() {
+        return instruction;
+    }
+
+    public String getPath() {
+        return path;
     }
 
     public void setupRover(int type) {
@@ -19,11 +31,12 @@ public class Rover {
         } else {
             this.type = 0;
         }
-        launchRover();
+        while (currentLocation != endLocation) move();
     }
 
-    private void launchRover() {
-        while (currentLocation != endLocation) move();
+    private void move() {
+        doStep(getMoves());
+        if (currentLocation != endLocation) rotateOrResetSpeed();
     }
 
     private int getMoves() {
@@ -43,11 +56,6 @@ public class Rover {
         }
     }
 
-    private void move() {
-        doStep(getMoves());
-        if (currentLocation != endLocation) rotateOrResetSpeed();
-    }
-
     private void doStep(int moves) {
         for (int i = 0; i < moves; i++) {
             currentLocation += velocity;
@@ -57,49 +65,22 @@ public class Rover {
         }
     }
 
-    private void rotate() {
-        if (velocity > 0) {
-            velocity = -1;
-        } else {
-            velocity = 1;
-        }
-        addToInstruction("R");
-        addToPath();
-    }
-
-    private void speedUp() {
-        velocity *= 2;
-    }
-
     private void rotateOrResetSpeed() {
 
         if (currentLocation < endLocation && velocity > 0) {
             rotate();
-            doStep(getSteps());
+            doStep(getBackwardSteps());
             rotate();
         } else if (currentLocation > endLocation && velocity < 0) {
             rotate();
-            doStep(getSteps());
+            doStep(getBackwardSteps());
             rotate();
         } else {
             rotate();
         }
     }
 
-    private int distance(int location) {
-        int distance = endLocation - location;
-        return Math.abs(distance);
-    }
-
-    private void addToInstruction(String instruction) {
-        this.instruction += instruction;
-    }
-
-    private void addToPath() {
-        path += "->" + currentLocation;
-    }
-
-    private int getSteps() {
+    private int getBackwardSteps() {
         if (type > 0) {
             int pos = currentLocation;
             int distance = distance(pos);
@@ -123,5 +104,32 @@ public class Rover {
         } else {
             return 0;
         }
+    }
+
+    private void rotate() {
+        if (velocity > 0) {
+            velocity = -1;
+        } else {
+            velocity = 1;
+        }
+        addToInstruction("R");
+        addToPath();
+    }
+
+    private void speedUp() {
+        velocity *= 2;
+    }
+
+    private int distance(int location) {
+        int distance = endLocation - location;
+        return Math.abs(distance);
+    }
+
+    private void addToInstruction(String instruction) {
+        this.instruction += instruction;
+    }
+
+    private void addToPath() {
+        path += "->" + currentLocation;
     }
 }

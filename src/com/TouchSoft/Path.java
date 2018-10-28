@@ -25,14 +25,11 @@ public class Path {
         Rover roverB = new Rover(endLocation);
         roverA.setupRover(0);
         roverB.setupRover(1);
-        if (roverA.instruction.length() > roverB.instruction.length()) {
-            return roverB;
-        } else {
-            return roverA;
-        }
+        return roverA.getInstructionLength() > roverB.getInstructionLength() ? roverB : roverA;
     }
 
     private void showOutput(Rover rover) {
-        System.out.println(String.format("Input: %s \nAnswer: %s\nOptimal instruction is: %s\nRover's path: %s", rover.endLocation, rover.instruction.length(), rover.instruction, rover.path));
+        System.out.println(String.format("Input: %s \nAnswer: %s\nOptimal instruction is: %s\nRover's path: %s",
+                endLocation, rover.getInstructionLength(), rover.getInstruction(), rover.getPath()));
     }
 }
