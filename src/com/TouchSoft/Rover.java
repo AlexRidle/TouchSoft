@@ -1,33 +1,29 @@
 package com.TouchSoft;
 
-import java.util.Scanner;
-
 public class Rover {
-
-    private Scanner scanner = new Scanner(System.in);
 
     private int velocity = 1;
     private int currentLocation = 0;
-    private int endLocation;
-    private String instruction = "";
-    private String path = "0";
+    private int type;
+    public int endLocation;
+    public String instruction = "";
+    public String path = "0";
 
-    public void setupRover() {
-        System.out.print("Type end location (have to be >1) : ");
-        while (true) {
-            endLocation = scanner.nextInt();
-            if (endLocation > 1) {
-                break;
-            } else {
-                System.out.print("Error: value should be higher than one: ");
-            }
+    Rover(int endLocation){
+        this.endLocation = endLocation;
+    }
+
+    public void setupRover(int type) {
+        if(type>0){
+            this.type = 1;
+        }else{
+            this.type = 0;
         }
         launchRover();
     }
 
     private void launchRover() {
         while (currentLocation != endLocation) move();
-        showOutput();
     }
 
     private int getMoves() {
@@ -103,29 +99,29 @@ public class Rover {
         path += "->" + currentLocation;
     }
 
-    private void showOutput() {
-        System.out.println(String.format("Input: %s \nAnswer: %s\nOptimal instruction is: %s\nRover's path: %s", endLocation, instruction.length(), instruction, path));
-    }
-
     private int getSteps() {
-        int pos = currentLocation;
-        int distance = distance(pos);
-        int velocity = 1;
-        int step = 1;
-        int count = 0;
-        while (true) {
-            if (velocity != distance && velocity < distance) {
-                velocity *= 2;
-                velocity++;
-            } else if (velocity > distance && count < 50) {
-                distance += step;
-                step *= 2;
-                count++;
-            } else if (velocity == distance) {
-                return count;
-            } else {
-                return 0;
+        if(type>0) {
+            int pos = currentLocation;
+            int distance = distance(pos);
+            int velocity = 1;
+            int step = 1;
+            int count = 0;
+            while (true) {
+                if (velocity != distance && velocity < distance) {
+                    velocity *= 2;
+                    velocity++;
+                } else if (velocity > distance && count < 50) {
+                    distance += step;
+                    step *= 2;
+                    count++;
+                } else if (velocity == distance) {
+                    return count;
+                } else {
+                    return 0;
+                }
             }
+        }else{
+            return 0;
         }
     }
 }
